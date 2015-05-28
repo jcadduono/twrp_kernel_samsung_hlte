@@ -2324,6 +2324,11 @@
 		qcom,memory-reservation-size = <0x280000>; /* 2.5M EBI1 buffer */
 	};
 
+	ram_console {
+		compatible = "ram_console";
+		bootinfo = <0>;
+	};
+
         qcom,qcedev@fd440000 {
 		compatible = "qcom,qcedev";
 		reg = <0xfd440000 0x20000>,
