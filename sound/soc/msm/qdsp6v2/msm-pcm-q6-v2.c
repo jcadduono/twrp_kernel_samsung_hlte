@@ -38,7 +38,7 @@
 #include "msm-pcm-q6-v2.h"
 #include "msm-pcm-routing-v2.h"
 
-#ifdef DUALWAVE_ENABLE 
+#ifdef CONFIG_DUALWAVE
 #include <linux/syscalls.h>
 #include <asm/uaccess.h>
 #include <linux/proc_fs.h>
@@ -470,7 +470,7 @@ static int msm_pcm_trigger(struct snd_pcm_substream *substream, int cmd)
 	case SNDRV_PCM_TRIGGER_PAUSE_RELEASE:
 		pr_debug("%s: Trigger start\n", __func__);
 
-		#ifdef DUALWAVE_ENABLE
+		#ifdef CONFIG_DUALWAVE
 		if(dw_status != DUALWAVE_INACTIVE){
 			GET_CUR_TIME_ON(res);		
 		}
@@ -478,7 +478,7 @@ static int msm_pcm_trigger(struct snd_pcm_substream *substream, int cmd)
 		
 		ret = q6asm_run_nowait(prtd->audio_client, 0, 0, 0);
 
-		#ifdef DUALWAVE_ENABLE
+		#ifdef CONFIG_DUALWAVE
 		switch(dw_status) {
 			case DUALWAVE_PLAYBACK:
 				if (substream->stream == SNDRV_PCM_STREAM_PLAYBACK){					
@@ -833,7 +833,7 @@ static int msm_pcm_close(struct snd_pcm_substream *substream)
 	else if (substream->stream == SNDRV_PCM_STREAM_CAPTURE)
 		ret = msm_pcm_capture_close(substream);
 
-#ifdef DUALWAVE_ENABLE
+#ifdef CONFIG_DUALWAVE
 	switch(dw_status) {
 		case DUALWAVE_PLAYBACK:
 			if (substream->stream == SNDRV_PCM_STREAM_PLAYBACK){
@@ -857,7 +857,7 @@ static int msm_pcm_prepare(struct snd_pcm_substream *substream)
 {
 	int ret = 0;
 
-#ifdef DUALWAVE_ENABLE
+#ifdef CONFIG_DUALWAVE
 	dw_status = checkDualWaveStatus();
 
 	switch(dw_status) {
