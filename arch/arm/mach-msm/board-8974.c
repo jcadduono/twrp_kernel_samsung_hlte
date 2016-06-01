@@ -108,7 +108,7 @@ extern int msm_show_resume_irq_mask;
 
 #ifdef CONFIG_ANDROID_PERSISTENT_RAM
 /* CONFIG_SEC_DEBUG reserving memory for persistent RAM*/
-#define PERSISTENT_RAM_BASE 0x7FA00000
+#define PERSISTENT_RAM_BASE 0xBFF00000
 #define PERSISTENT_RAM_SIZE SZ_1M
 #define RAM_CONSOLE_SIZE (124*SZ_1K * 2)
 
@@ -483,10 +483,10 @@ void __init msm_8974_reserve(void)
 {
 	reserve_info = &msm8974_reserve_info;
 	of_scan_flat_dt(dt_scan_for_memory_reserve, msm8974_reserve_table);
+	msm_reserve();
 #ifdef CONFIG_ANDROID_PERSISTENT_RAM
 	persistent_ram_early_init(&per_ram);
 #endif
-	msm_reserve();
 }
 
 static void __init msm8974_early_memory(void)
@@ -632,8 +632,8 @@ void __init msm8974_init(void)
 	msm_8974_init_gpiomux();
 	regulator_has_full_constraints();
 #ifdef CONFIG_ANDROID_RAM_CONSOLE
-        add_ramconsole_devices();
-#endif	
+	add_ramconsole_devices();
+#endif
 	board_dt_populate(adata);
 	msm8974_add_drivers();
 
